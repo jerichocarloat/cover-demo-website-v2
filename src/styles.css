@@ -99,7 +99,7 @@ ul, ol { padding: 0; list-style: none; }
 /* ------------------------------------------------------------ nav */
 .nav { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 50; height: 0; }
 .nav__inner { height: 80px; display: flex; align-items: center; gap: 24px; padding-inline: var(--gutter); color: #fff; transition: background-color .3s var(--ease), color .3s, box-shadow .3s, height .3s var(--ease); }
-.nav[data-solid="true"] .nav__inner, .nav[data-open="true"] .nav__inner { background: rgba(255, 255, 255, .94); color: var(--text); backdrop-filter: saturate(1.4) blur(14px); box-shadow: 0 1px 0 var(--line); height: 68px; }
+.nav[data-solid="true"] .nav__inner, .nav[data-open="true"] .nav__inner { background: var(--white); color: var(--text); box-shadow: 0 1px 0 var(--line); height: 68px; }
 .nav__brand { flex: none; }
 .nav__brand img { width: 108px; transition: transform .3s var(--ease); }
 .nav__brand:hover img { transform: rotate(-3deg); }
@@ -138,7 +138,7 @@ ul, ol { padding: 0; list-style: none; }
 .hero__proof li + li { border-left: 1px solid rgba(255, 255, 255, .22); }
 .hero__proof strong { font-size: 1.5rem; font-weight: 750; letter-spacing: -.03em; }
 .hero__proof span { font-size: .82rem; color: rgba(255, 255, 255, .7); margin-top: 2px; }
-.hero__strip { position: relative; z-index: 2; display: flex; align-items: center; justify-content: center; gap: 16px; padding: 18px var(--gutter); background: rgba(8, 26, 34, .78); backdrop-filter: blur(10px); border-top: 1px solid var(--line-dark); text-decoration: none; color: rgba(255, 255, 255, .8); font-size: .98rem; transition: background-color .3s; }
+.hero__strip { position: relative; z-index: 2; display: flex; align-items: center; justify-content: center; gap: 16px; padding: 18px var(--gutter); background: rgba(8, 26, 34, .9); border-top: 1px solid var(--line-dark); text-decoration: none; color: rgba(255, 255, 255, .8); font-size: .98rem; transition: background-color .3s; }
 .hero__strip strong { color: #fff; margin-left: 6px; font-weight: 700; }
 .hero__strip .dot-arrow { background: var(--cyan); color: var(--navy); }
 .hero__strip:hover { background: rgba(8, 26, 34, .95); }
@@ -358,7 +358,7 @@ legend { font-weight: 750; font-size: 1.05rem; margin-bottom: 14px; display: fle
 .logos__title { text-align: center; font-size: 1.05rem; font-weight: 750; margin-bottom: 26px; padding-inline: var(--gutter); }
 .logos__title span { color: var(--muted); font-weight: 550; }
 .marquee { overflow: hidden; mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
-.marquee__track { display: flex; gap: 16px; width: max-content; padding: 4px 0; }
+.marquee__track { will-change: transform; display: flex; gap: 16px; width: max-content; padding: 4px 0; }
 .marquee__track li { width: 190px; height: 100px; border-radius: 18px; background: var(--white); border: 1px solid var(--line); display: grid; place-items: center; flex: none; }
 .marquee__track img { width: 140px; height: 70px; object-fit: contain; filter: grayscale(1); opacity: .7; transition: filter .3s, opacity .3s; }
 .marquee__track li:hover img { filter: none; opacity: 1; }
@@ -478,3 +478,8 @@ html:not(.js) .flow__img:not(:first-of-type), html:not(.js) .flow__chip:not(.is-
 .company__copy .btn { margin-top: 32px; }
 .prod__body .ticks { margin-bottom: 0; }
 .prod__body .link-arrow { margin-top: auto; padding-top: 28px; }
+
+/* ------------------------------------------------------------ scroll performance */
+[data-hero] .hero__content, [data-hero] .phero__content { will-change: transform, opacity; }
+/* While Lenis is easing the page, hover states would fire on every card that slides under a still cursor. */
+@media (hover: hover) and (pointer: fine) { html.lenis-smooth main { pointer-events: none; } }

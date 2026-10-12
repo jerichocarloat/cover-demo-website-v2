@@ -6,6 +6,7 @@ import Lenis from "lenis";
 import { icons } from "./icons";
 
 gsap.registerPlugin(ScrollTrigger, SplitText);
+ScrollTrigger.config({ ignoreMobileResize: true });
 
 const root = document.documentElement;
 const reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -26,7 +27,8 @@ const cleanups: Array<() => void> = [];
 /* ------------------------------------------------------------ smooth scroll (Lenis is the only engine) */
 function initScroll() {
   if (reduce.matches) return;
-  lenis = new Lenis({ duration: 1.1, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)) });
+  // lerp (not duration) keeps trackpad momentum continuous instead of restarting an ease on every wheel event.
+  lenis = new Lenis({ lerp: 0.12, smoothWheel: true, wheelMultiplier: 1, autoRaf: false });
   lenis.on("scroll", ScrollTrigger.update);
   const raf = (time: number) => lenis?.raf(time * 1000);
   gsap.ticker.add(raf);
@@ -53,7 +55,11 @@ function initNav() {
   const label = $("[data-menu-label]", nav)!;
   const menu = $("[data-menu]", nav)!;
   const fixed = nav.hasAttribute("data-fixed-solid");
-  const sync = () => { if (!fixed) nav.dataset.solid = String(window.scrollY > 24); };
+  const sync = () => {
+    if (fixed) return;
+    const solid = String(window.scrollY > 24);
+    if (nav.dataset.solid !== solid) nav.dataset.solid = solid;
+  };
   sync();
   window.addEventListener("scroll", sync, { passive: true });
   const setOpen = (open: boolean) => {
@@ -118,8 +124,8 @@ function initHero() {
   if (ins.length) tl.fromTo(ins, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 1, stagger: 0.08 }, 0.5);
   if (cards.length) tl.fromTo(cards, { opacity: 0, y: 36, scale: 0.94 }, { opacity: 1, y: 0, scale: 1, duration: 1.1, stagger: 0.12, ease: "back.out(1.5)" }, 0.85);
 
-  if (media) gsap.to(media, { yPercent: 9, ease: "none", scrollTrigger: { trigger: hero, start: "top top", end: "bottom top", scrub: true } });
-  if (content) gsap.to(content, { yPercent: -10, opacity: 0.35, ease: "none", scrollTrigger: { trigger: hero, start: "top top", end: "bottom top", scrub: true } });
+  if (media) gsap.to(media, { yPercent: 9, ease: "none", force3D: true, scrollTrigger: { trigger: hero, start: "top top", end: "bottom top", scrub: true } });
+  if (content) gsap.to(content, { yPercent: -10, opacity: 0.35, ease: "none", force3D: true, scrollTrigger: { trigger: hero, start: "top top", end: "bottom top", scrub: true } });
 
   if (!cards.length) { cleanups.push(() => { tl.kill(); split?.revert(); }); return; }
   const floats = cards.map((card, i) => gsap.to(card, { y: i % 2 ? 9 : -9, duration: 3.2 + i * 0.4, ease: "sine.inOut", yoyo: true, repeat: -1, paused: true }));
