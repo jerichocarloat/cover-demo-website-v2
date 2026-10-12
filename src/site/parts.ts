@@ -51,7 +51,7 @@ export function photo(key: PhotoKey, sizes: string, opts: { alt?: string; eager?
 const navItems: Array<[string, string, string]> = [
   ["plattform/", "Software", "software"],
   ["services/", "Services", "services"],
-  ["unternehmen/", "Unternehmen", "unternehmen"],
+  ["unternehmen/", "Über uns", "unternehmen"],
   ["kontakt/", "Kontakt", "kontakt"],
 ];
 
@@ -84,7 +84,7 @@ export function footer(ctx: Ctx) {
       <nav class="foot__cols" aria-label="Fußnavigation">
         <div><h2>Software</h2><a href="${href(ctx, "plattform/#erp")}">ERP</a><a href="${href(ctx, "plattform/#crm")}">CRM</a><a href="${href(ctx, "plattform/#commerce")}">E-Commerce</a><a href="${href(ctx, "plattform/#module")}">ERP-Module</a></div>
         <div><h2>Services</h2><a href="${href(ctx, "services/")}">Spezialisierte Services</a><a href="${href(ctx, "operations/")}">Verlagsbetrieb</a><a href="${href(ctx, "kundenentwicklung/")}">Kundenentwicklung</a><a href="${href(ctx, "loesungen/")}">Lösungen</a></div>
-        <div><h2>Unternehmen</h2><a href="${href(ctx, "unternehmen/")}">Über COVER</a><a href="${href(ctx, "news/")}">Aktuelles</a><a href="${href(ctx, "kontakt/")}">Kontakt</a><a href="https://covernet.de/kundenbereich-login" rel="noopener" target="_blank">Kundenbereich</a></div>
+        <div><h2>Über uns</h2><a href="${href(ctx, "unternehmen/")}">Über COVER</a><a href="${href(ctx, "news/")}">Aktuelles</a><a href="${href(ctx, "kontakt/")}">Kontakt</a><a href="https://covernet.de/kundenbereich-login" rel="noopener" target="_blank">Kundenbereich</a></div>
         <div><h2>Kontakt</h2><p>Hanns-Klemm-Str. 1A<br />71034 Böblingen<br />+49 7031 2126-300<br />vertrieb@covernet.de</p></div>
       </nav>
     </div>
